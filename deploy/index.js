@@ -73,26 +73,14 @@ function * main () {
   })
   console.log('RELEASE_DESC', RELEASE_DESC)
   try {
-    const all = readdirSync(ARTIFACTS_DIRECTORY)
-      .map(
-        name =>
-          assign({}, RELEASE_DESC, {
-            name,
-            filePath: join(ARTIFACTS_DIRECTORY, name),
-            __proto__: null
-          })
-      )
-      .map(
-        request => {
-          console.log('request', request)
-          return request
-        }
-      )
-      .map(
-        request =>
-          repos.uploadAsset(request)
-      )
-    yield Promise.all(all)
+    for (const name of readdirSync(ARTIFACTS_DIRECTORY)) {
+      const RELEASE_ASSET = assign({}, RELEASE_DESC, {
+        name,
+        filePath: join(ARTIFACTS_DIRECTORY, name),
+        __proto__: null
+      })
+      yield repos.uploadAsset(RELEASE_ASSET)
+    }
   } catch (error) {
     throw new GitHubError('Uploading artifacts failed', error)
   }
