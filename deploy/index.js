@@ -71,6 +71,7 @@ function * main () {
     id: String(RELEASE_INFO.id),
     __proto__: null
   })
+  console.log('RELEASE_DESC', RELEASE_DESC)
   try {
     const all = readdirSync(ARTIFACTS_DIRECTORY)
       .map(
