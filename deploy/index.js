@@ -83,6 +83,12 @@ function * main () {
           })
       )
       .map(
+        request => {
+          console.log('request', request)
+          return request
+        }
+      )
+      .map(
         request =>
           repos.uploadAsset(request)
       )
